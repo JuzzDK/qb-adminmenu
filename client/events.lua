@@ -23,6 +23,7 @@ RegisterNetEvent('qb-admin:client:spectate', function(targetPed)
     QBCore.Functions.TriggerCallback('qb-admin:isAdmin', function(isAdmin)
         if not isAdmin then return end
         local myPed = PlayerPedId()
+        
         local targetplayer = GetPlayerFromServerId(targetPed)
         local target = GetPlayerPed(targetplayer)
         if not isSpectating then

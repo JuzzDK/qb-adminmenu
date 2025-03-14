@@ -24,6 +24,7 @@ local menu12 = MenuV:CreateMenu(false, Lang:t('menu.vehicle_categories'), menuLo
 local menu13 = MenuV:CreateMenu(false, Lang:t('menu.vehicle_models'), menuLocation, 220, 20, 60, 'size-125', 'none', 'menuv', 'test13')
 local menu14 = MenuV:CreateMenu(false, Lang:t('menu.entity_view_options'), menuLocation, 220, 20, 60, 'size-125', 'none', 'menuv', 'test14')
 local menu15 = MenuV:CreateMenu(false, Lang:t('menu.spawn_weapons'), menuLocation, 220, 20, 60, 'size-125', 'none', 'menuv', 'test15')
+local menu16 = MenuV:CreateMenu(false, Lang:t('menu.themafiatowntitle'), menuLocation, 220, 20, 60, 'size-125', 'none', 'menuv', 'test16')
 
 RegisterNetEvent('qb-admin:client:openMenu', function()
     QBCore.Functions.TriggerCallback('qb-admin:isAdmin', function(isAdmin)
@@ -40,6 +41,13 @@ menu1:AddButton({
     icon = '😃',
     label = Lang:t('menu.admin_options'),
     value = menu2,
+    description = Lang:t('desc.admin_options_desc')
+})
+
+menu1:AddButton({
+    icon = '🪩',
+    label = Lang:t('menu.themafiatown_desc'),
+    value = menu16,
     description = Lang:t('desc.admin_options_desc')
 })
 
@@ -291,6 +299,13 @@ local menu7_dev_copy_vec3 = menu7:AddButton({
     label = Lang:t('menu.copy_vector3'),
     value = 'coords',
     description = Lang:t('desc.vector3_desc')
+})
+
+local menu16_discordtext = menu16:AddButton({
+    icon = '📝',
+    label = Lang:t('menu.copy_discord'),
+    value = 'coords',
+    description = Lang:t('desc.discord_desc')
 })
 
 local menu7_dev_copy_vec4 = menu7:AddButton({
@@ -1043,6 +1058,13 @@ local function CopyToClipboard(dataType)
             string = string.format('vector3(%s, %s, %s)', x, y, z)
         })
         QBCore.Functions.Notify(Lang:t('success.coords_copied'), 'success')
+        
+    elseif dataType == 'discord' then
+        SendNUIMessage({
+            string = string.format('https://discord.gg/dDZAxYCFHB')
+        })
+        QBCore.Functions.Notify(Lang:t('success.discord_copied'), 'success')
+
     elseif dataType == 'coords4' then
         local coords = GetEntityCoords(ped)
         local x = QBCore.Shared.Round(coords.x, 2)
@@ -1150,6 +1172,11 @@ end
 RegisterNetEvent('qb-admin:client:ToggleCoords', function()
     ToggleShowCoordinates()
 end)
+
+menu16_discordtext:On('select', function()
+    CopyToClipboard('discord')
+end)
+
 
 menu7_dev_copy_vec3:On('select', function()
     CopyToClipboard('coords3')
